@@ -16,7 +16,6 @@ public class WordRepository {
 
     public WordRepository(Context context) {
         WordDataBase wordDataBase = WordDataBase.getDatabase(context.getApplicationContext());
-
         wordDao = wordDataBase.getWordDao();
         allWordsLive = wordDao.getAllWordsLive();
     }
@@ -25,25 +24,29 @@ public class WordRepository {
         return allWordsLive;
     }
 
-    void updateWords(Word...words){
+    void updateWords(Word... words) {
         new UpdateAsyncTask(wordDao).execute(words);
     }
-    void insertWords(Word...words){
+
+    void insertWords(Word... words) {
         new InsertAsyncTask(wordDao).execute(words);
     }
-    void deleteWords(Word...words){
+
+    void deleteWords(Word... words) {
         new DeleteAsyncTask(wordDao).execute(words);
     }
 
-    void clearWords(){
+    void clearWords() {
         new ClearAsyncTask(wordDao).execute();
     }
-    static class InsertAsyncTask extends AsyncTask<Word,Void,Void> {
+
+    static class InsertAsyncTask extends AsyncTask<Word, Void, Void> {
         private WordDao wordDao;
 
         public InsertAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }
+
         @Override
         protected Void doInBackground(Word... words) {
             wordDao.insertWotds(words);
@@ -51,11 +54,13 @@ public class WordRepository {
         }
     }
 
-    static class UpdateAsyncTask extends AsyncTask<Word,Void,Void>{
+    static class UpdateAsyncTask extends AsyncTask<Word, Void, Void> {
         private WordDao wordDao;
+
         public UpdateAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }
+
         @Override
         protected Void doInBackground(Word... words) {
             wordDao.updateWords(words);
@@ -64,8 +69,9 @@ public class WordRepository {
     }
 
 
-    static class ClearAsyncTask extends AsyncTask<Void,Void,Void>{
+    static class ClearAsyncTask extends AsyncTask<Void, Void, Void> {
         private WordDao wordDao;
+
         public ClearAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }
@@ -77,8 +83,9 @@ public class WordRepository {
         }
     }
 
-    static class DeleteAsyncTask extends AsyncTask<Word,Void,Void>{
+    static class DeleteAsyncTask extends AsyncTask<Word, Void, Void> {
         private WordDao wordDao;
+
         public DeleteAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }

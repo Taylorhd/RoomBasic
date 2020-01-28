@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.AsyncTask;
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     Button btInsert ,btUpdate,btClear,btDelete;
 
     WordViewModel wordViewModel;
+    RecyclerView recyclerView ;
+    MyAdapter myAdapter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,21 +34,25 @@ public class MainActivity extends AppCompatActivity {
 
 //        wordDao = wordDataBase.getWordDao();
 
-        textView = findViewById(R.id.textView);
+//        textView = findViewById(R.id.textView);
         btInsert = findViewById(R.id.btInsert);
         btUpdate = findViewById(R.id.btUpdate);
         btClear = findViewById(R.id.btClear);
         btDelete = findViewById(R.id.btDelete);
-//        allWordsLive = wordDao.getAllWordsLive();
+        recyclerView = findViewById(R.id.recycler_view);
         wordViewModel =  ViewModelProviders.of(this).get(WordViewModel.class);
+
+
+
+        myAdapter = new MyAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(myAdapter);
+
         wordViewModel.getAllWordLive().observe(this, new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
-                StringBuilder text = new StringBuilder();
-                for (Word item : words) {
-                    text.append(item.getId()).append(item.getWord()).append(item.getChineseMeaning()).append("\n");
-                }
-                textView.setText(text.toString());
+                myAdapter.setAllWords(words);
+                myAdapter.notifyDataSetChanged();
             }
         });
 
@@ -65,9 +73,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Word word = new Word("material","材料");
                 word.setId(5);
-//                wordDao.updateWords(word);
-//                updateView();
-//                new UpdateAsyncTask(wordDao).execute(word);
                 wordViewModel.updateWords(word);
             }
 
@@ -77,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 //              wordDao.deleteAllWords();
 //              updateView();
-//                new ClearAsyncTask(wordDao).execute();
                 wordViewModel.clearWords();
             }
         });
@@ -87,25 +91,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Word word = new Word("hi","mni");
                 word.setId(90);
-//                wordDao.deleteWords(word);
-//                updateView();
-//                new DeleteAsyncTask(wordDao).doInBackground(word);
-//                new DeleteAsyncTask(wordDao).execute(word);
                 wordViewModel.deleteWord(word);
             }
         });
 
     }
 
-//    private void updateView() {
-//        String text = "";
-//        List<Word> words = wordDao.getAllWords();
-//        for (Word item:words) {
-//            text  = text + item.getId()+item.getWord()+"   "+item.getChineseMeaning()+"\n";
-//        }
-//        textView.setText(text);
-//
-//    }
+
 
 
 }
