@@ -13,6 +13,17 @@ public class Word {
         this.id = id;
     }
 
+    @ColumnInfo(name = "foo")
+    private boolean foo;
+
+    public boolean isFoo() {
+        return foo;
+    }
+
+    public void setFoo(boolean foo) {
+        this.foo = foo;
+    }
+
     public int getId() {
         return id;
     }
