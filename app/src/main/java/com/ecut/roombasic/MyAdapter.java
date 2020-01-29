@@ -1,5 +1,7 @@
 package com.ecut.roombasic;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,16 +39,26 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
         }else {
              itemView = layoutInflater.inflate(R.layout.cell_normal, parent, false);
         }
+
 //        return null;
         return  new MyHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-       Word word = allWords.get(position);
+    public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
+       final Word word = allWords.get(position);
        holder.textId.setText(String.valueOf(position));
        holder.textChinese.setText(word.getChineseMeaning());
        holder.textEnglish.setText(word.getWord());
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Uri uri =Uri.parse("https://m.youdao.com/dict?q="+word.getWord()) ;
+               Intent intent = new Intent(Intent.ACTION_VIEW);
+               intent.setData(uri);
+               holder.itemView.getContext().startActivity(intent);
+           }
+       });
     }
 
     @Override
