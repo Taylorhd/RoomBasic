@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
+    private boolean cardFlag;
+    public MyAdapter(boolean cardFlag) {
+        this.cardFlag = cardFlag;
+    }
+
     List<Word> allWords = new ArrayList<>();
 
     public void setAllWords(List<Word> allWords) {
@@ -23,8 +28,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View itemView;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.cell_normal,parent,false);
+        if (cardFlag){
+            // 使用cardview
+             itemView = layoutInflater.inflate(R.layout.cell_card, parent, false);
+
+        }else {
+             itemView = layoutInflater.inflate(R.layout.cell_normal, parent, false);
+        }
 //        return null;
         return  new MyHolder(itemView);
     }
@@ -32,14 +44,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
        Word word = allWords.get(position);
-       holder.textId.setText(String.valueOf(word.getId()));
+       holder.textId.setText(String.valueOf(position));
        holder.textChinese.setText(word.getChineseMeaning());
-       holder.textEnglish.setText(position);
+       holder.textEnglish.setText(word.getWord());
     }
 
     @Override
     public int getItemCount() {
         return allWords.size();
+    }
+
+    public void setCardFlag(boolean cardFlag) {
+        this.cardFlag = cardFlag;
     }
 
     static class MyHolder extends RecyclerView.ViewHolder{

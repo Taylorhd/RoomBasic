@@ -13,6 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     WordViewModel wordViewModel;
     RecyclerView recyclerView ;
     MyAdapter myAdapter ;
+    Switch aSwitch ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +44,27 @@ public class MainActivity extends AppCompatActivity {
         btClear = findViewById(R.id.btClear);
         btDelete = findViewById(R.id.btDelete);
         recyclerView = findViewById(R.id.recycler_view);
+        aSwitch = findViewById(R.id.switch1);
+
+
         wordViewModel =  ViewModelProviders.of(this).get(WordViewModel.class);
-
-
-
-        myAdapter = new MyAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myAdapter = new MyAdapter(false);
         recyclerView.setAdapter(myAdapter);
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                myAdapter .setCardFlag(isChecked);
+
+                recyclerView.setAdapter(myAdapter);
+            }
+        });
+
+
+//        myAdapter = new MyAdapter(switchFlag);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView.setAdapter(myAdapter);
 
         wordViewModel.getAllWordLive().observe(this, new Observer<List<Word>>() {
             @Override
