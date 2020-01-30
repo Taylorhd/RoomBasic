@@ -35,6 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
+        final MyHolder holder;
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         if (cardFlag){
             // 使用cardview
@@ -44,13 +45,49 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
              itemView = layoutInflater.inflate(R.layout.cell_normal_2, parent, false);
         }
 
+        holder = new MyHolder(itemView);
+       final   Word word = (Word)holder.itemView.getTag(R.id.word_for_view_holder);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri =Uri.parse("https://m.youdao.com/dict?q="+word.getWord()) ;
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(uri);
+                holder.itemView.getContext().startActivity(intent);
+
+            }
+        });
+        holder.switchChineseInvisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked){
+
+                    holder.textChinese.setVisibility(View.GONE);
+                    word.setFoo(true);
+                    viewModel.updateWords(word);
+
+                }else{
+
+
+                    holder.textChinese.setVisibility(View.VISIBLE);
+                    // 设置为0
+                    word.setFoo(false);
+                    viewModel.updateWords(word);
+
+                }
+
+            }
+        });
+
 //        return null;
-        return  new MyHolder(itemView);
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
        final Word word = allWords.get(position);
+       holder.itemView.setTag(R.id.word_for_view_holder,word);
        holder.textId.setText(String.valueOf(position));
        holder.textChinese.setText(word.getChineseMeaning());
        holder.textEnglish.setText(word.getWord());
@@ -64,37 +101,37 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
 
         }
 
-       holder.itemView.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Uri uri =Uri.parse("https://m.youdao.com/dict?q="+word.getWord()) ;
-               Intent intent = new Intent(Intent.ACTION_VIEW);
-               intent.setData(uri);
-               holder.itemView.getContext().startActivity(intent);
-           }
-       });
+//       holder.itemView.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View v) {
+//               Uri uri =Uri.parse("https://m.youdao.com/dict?q="+word.getWord()) ;
+//               Intent intent = new Intent(Intent.ACTION_VIEW);
+//               intent.setData(uri);
+//               holder.itemView.getContext().startActivity(intent);
+//           }
+//       });
 
-       holder.switchChineseInvisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-           @Override
-           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if (isChecked){
-
-                   holder.textChinese.setVisibility(View.GONE);
-                   word.setFoo(true);
-                   viewModel.updateWords(word);
-
-               }else{
-
-
-                   holder.textChinese.setVisibility(View.VISIBLE);
-                   // 设置为0
-                   word.setFoo(false);
-                   viewModel.updateWords(word);
-
-               }
-
-           }
-       });
+//       holder.switchChineseInvisable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//           @Override
+//           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//               if (isChecked){
+//
+//                   holder.textChinese.setVisibility(View.GONE);
+//                   word.setFoo(true);
+//                   viewModel.updateWords(word);
+//
+//               }else{
+//
+//
+//                   holder.textChinese.setVisibility(View.VISIBLE);
+//                   // 设置为0
+//                   word.setFoo(false);
+//                   viewModel.updateWords(word);
+//
+//               }
+//
+//           }
+//       });
 
     }
 
