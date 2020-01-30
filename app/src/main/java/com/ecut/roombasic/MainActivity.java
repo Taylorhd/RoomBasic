@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         wordViewModel =  ViewModelProviders.of(this).get(WordViewModel.class);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapter = new MyAdapter(false);
+        myAdapter = new MyAdapter(false,wordViewModel);
         recyclerView.setAdapter(myAdapter);
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -69,8 +69,11 @@ public class MainActivity extends AppCompatActivity {
         wordViewModel.getAllWordLive().observe(this, new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
+                int temp = myAdapter.getItemCount();
                 myAdapter.setAllWords(words);
-                myAdapter.notifyDataSetChanged();
+                if (temp != words.size()) {
+                    myAdapter.notifyDataSetChanged();
+                }
             }
         });
 
