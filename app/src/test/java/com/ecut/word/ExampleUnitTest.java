@@ -1,4 +1,4 @@
-package com.ecut.roombasic;
+package com.ecut.word;
 
 import org.junit.Test;
 

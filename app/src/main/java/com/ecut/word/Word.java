@@ -1,4 +1,4 @@
-package com.ecut.roombasic;
+package com.ecut.word;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

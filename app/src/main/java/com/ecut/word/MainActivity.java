@@ -1,4 +1,4 @@
-package com.ecut.roombasic;
+package com.ecut.word;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;

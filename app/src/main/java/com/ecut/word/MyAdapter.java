@@ -1,4 +1,4 @@
-package com.ecut.roombasic;
+package com.ecut.word;
 
 import android.content.Intent;
 import android.net.Uri;
