@@ -2,10 +2,13 @@ package com.ecut.word.fragment;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -35,6 +39,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment {
+    public static final String CARD_VIEW_STATE = "card_view_state";
 
     private RecyclerView recyclerView ;
     private MyAdapter adapter ;
@@ -45,6 +50,45 @@ public class ListFragment extends Fragment {
         setHasOptionsMenu(true);
 
         // Required empty public constructor
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()){
+            case R.id.clearView:
+
+                // 弹出确认对话框
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                builder.setTitle(R.string.dialog_title);
+                builder.setPositiveButton(R.string.dialog_postive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 清除视图
+                        viewModel.clearWords();
+                    }
+                });
+                builder.setNegativeButton(R.string.dialog_negtive,null);
+                builder.create();
+                builder.show();
+                break;
+            case R.id.switchView:
+                // 切换视图
+                SharedPreferences shp = requireActivity().getPreferences(Context.MODE_PRIVATE);
+                boolean currentView = shp.getBoolean(CARD_VIEW_STATE,false);
+                SharedPreferences.Editor editor = shp.edit();
+                editor.putBoolean(CARD_VIEW_STATE,!currentView);
+                editor.apply();
+
+                adapter.setCardFlag(!currentView);
+                recyclerView.setAdapter(adapter);
+
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -100,7 +144,9 @@ public class ListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         floatingActionButton = requireActivity().findViewById(R.id.floatingActionButton);
         viewModel = ViewModelProviders.of(this).get(WordViewModel.class);
-        adapter = new MyAdapter(false,viewModel);
+        SharedPreferences shp = requireActivity().getPreferences(Context.MODE_PRIVATE);
+        boolean currentView = shp.getBoolean(CARD_VIEW_STATE,false);
+        adapter = new MyAdapter(currentView,viewModel);
         recyclerView.setAdapter(adapter);
         filterWords = viewModel.getAllWordLive();
       filterWords.observe(requireActivity(), new Observer<List<Word>>() {

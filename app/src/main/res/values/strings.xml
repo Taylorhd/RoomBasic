@@ -11,4 +11,7 @@
     <string name="clearView">清空视图</string>
     <string name="switchview">切换视图</string>
     <string name="search">Search</string>
+    <string name="dialog_title">清除视图</string>
+    <string name="dialog_postive">确认</string>
+    <string name="dialog_negtive">取消</string>
 </resources>

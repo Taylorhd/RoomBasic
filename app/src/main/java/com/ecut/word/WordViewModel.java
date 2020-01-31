@@ -28,15 +28,15 @@ public class WordViewModel extends AndroidViewModel {
         wordRepository.insertWords(words);
     }
 
-    void updateWords(Word... words) {
+    public void updateWords(Word... words) {
         wordRepository.updateWords(words);
     }
 
-    void clearWords() {
+    public void clearWords() {
         wordRepository.clearWords();
     }
 
-    void deleteWord(Word... words) {
+    public  void deleteWord(Word... words) {
         wordRepository.deleteWords(words);
     }
     public LiveData<List<Word>> searchByKeyWord(String pattern){
