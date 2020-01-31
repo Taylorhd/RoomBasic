@@ -39,4 +39,8 @@ public class WordViewModel extends AndroidViewModel {
     void deleteWord(Word... words) {
         wordRepository.deleteWords(words);
     }
+    public LiveData<List<Word>> searchByKeyWord(String pattern){
+     return wordRepository.searchByKeyWord(pattern);
+    }
+
 }

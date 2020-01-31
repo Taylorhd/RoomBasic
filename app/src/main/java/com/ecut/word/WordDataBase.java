@@ -28,4 +28,6 @@ public abstract class WordDataBase extends RoomDatabase {
         }
     };
     public abstract WordDao getWordDao();
+
+
 }

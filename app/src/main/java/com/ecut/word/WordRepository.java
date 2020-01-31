@@ -39,6 +39,9 @@ public class WordRepository {
     void clearWords() {
         new ClearAsyncTask(wordDao).execute();
     }
+    LiveData<List<Word>> searchByKeyWord(String pattern){
+       return wordDao.searchByKeyWord("%"+pattern+"%");
+    }
 
     static class InsertAsyncTask extends AsyncTask<Word, Void, Void> {
         private WordDao wordDao;

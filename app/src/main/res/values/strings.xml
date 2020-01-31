@@ -8,4 +8,7 @@
     <string name="add_english_words">English Word</string>
     <string name="add_chinese_words">中文释义</string>
     <string name="add_button">添加</string>
+    <string name="clearView">清空视图</string>
+    <string name="switchview">切换视图</string>
+    <string name="search">Search</string>
 </resources>
