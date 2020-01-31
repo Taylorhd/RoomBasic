@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">RoomBasic</string>
+    <string name="app_name">word</string>
     <string name="textview">TextView</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new_words">添加单词</string>
+    <string name="add_english_words">English Word</string>
+    <string name="add_chinese_words">中文释义</string>
+    <string name="add_button">添加</string>
 </resources>
