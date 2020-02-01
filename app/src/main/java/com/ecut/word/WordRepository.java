@@ -3,24 +3,22 @@ package com.ecut.word;
 import android.content.Context;
 import android.os.AsyncTask;
 
-
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
 
 import java.util.List;
 
-public class WordRepository {
+class WordRepository {
 
     private LiveData<List<Word>> allWordsLive;
     private WordDao wordDao;
 
-    public WordRepository(Context context) {
+    WordRepository(Context context) {
         WordDataBase wordDataBase = WordDataBase.getDatabase(context.getApplicationContext());
         wordDao = wordDataBase.getWordDao();
         allWordsLive = wordDao.getAllWordsLive();
     }
 
-    public LiveData<List<Word>> getAllWordsLive() {
+    LiveData<List<Word>> getAllWordsLive() {
         return allWordsLive;
     }
 
@@ -46,13 +44,13 @@ public class WordRepository {
     static class InsertAsyncTask extends AsyncTask<Word, Void, Void> {
         private WordDao wordDao;
 
-        public InsertAsyncTask(WordDao wordDao) {
+        InsertAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }
 
         @Override
         protected Void doInBackground(Word... words) {
-            wordDao.insertWotds(words);
+            wordDao.insertWords(words);
             return null;
         }
     }
@@ -60,7 +58,7 @@ public class WordRepository {
     static class UpdateAsyncTask extends AsyncTask<Word, Void, Void> {
         private WordDao wordDao;
 
-        public UpdateAsyncTask(WordDao wordDao) {
+        UpdateAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }
 
@@ -75,7 +73,7 @@ public class WordRepository {
     static class ClearAsyncTask extends AsyncTask<Void, Void, Void> {
         private WordDao wordDao;
 
-        public ClearAsyncTask(WordDao wordDao) {
+        ClearAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }
 
@@ -89,7 +87,7 @@ public class WordRepository {
     static class DeleteAsyncTask extends AsyncTask<Word, Void, Void> {
         private WordDao wordDao;
 
-        public DeleteAsyncTask(WordDao wordDao) {
+        DeleteAsyncTask(WordDao wordDao) {
             this.wordDao = wordDao;
         }
 

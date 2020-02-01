@@ -16,11 +16,11 @@ public class Word {
     @ColumnInfo(name = "foo")
     private boolean foo;
 
-    public boolean isFoo() {
+    boolean isFoo() {
         return foo;
     }
 
-    public void setFoo(boolean foo) {
+    void setFoo(boolean foo) {
         this.foo = foo;
     }
 
@@ -42,13 +42,13 @@ public class Word {
         this.word = word;
     }
 
-    public String getChineseMeaning() {
+    String getChineseMeaning() {
         return chineseMeaning;
     }
 
-    public void setChineseMeaning(String chineseMeaning) {
-        this.chineseMeaning = chineseMeaning;
-    }
+//    public void setChineseMeaning(String chineseMeaning) {
+//        this.chineseMeaning = chineseMeaning;
+//    }
 
     public String getWord() {
         return word;

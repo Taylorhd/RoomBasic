@@ -2,7 +2,6 @@ package com.ecut.word;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,27 +10,41 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
-
-
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
+public class MyAdapter extends ListAdapter<Word,MyAdapter.MyHolder> {
     private boolean cardFlag;
     private WordViewModel viewModel;
-    List<Word> allWords = new ArrayList<>();
+//    List<Word> allWords = new ArrayList<>();
 
     public MyAdapter(boolean cardFlag, WordViewModel viewModel) {
+        super(new DiffUtil.ItemCallback<Word>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Word oldItem, @NonNull Word newItem) {
+                return oldItem.getId() == newItem.getId();
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull Word oldItem, @NonNull Word newItem) {
+                return (oldItem.getWord().equals(newItem.getWord())
+                        &&oldItem.getChineseMeaning().equals(newItem.getChineseMeaning())
+                        &&oldItem.isFoo() == newItem.isFoo());
+            }
+        });
         this.cardFlag = cardFlag;
         this.viewModel = viewModel;
     }
 
-    public void setAllWords(List<Word> allWords) {
-        this.allWords = allWords;
+//    public void setAllWords(List<Word> allWords) {
+//        this.allWords = allWords;
+//    }
+
+    public boolean isCardFlag() {
+        return cardFlag;
     }
 
     @NonNull
@@ -92,9 +105,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder, int position) {
-       final Word word = allWords.get(position);
+//       final Word word = allWords.get(position);
+       final Word word = getItem(position);
        holder.itemView.setTag(R.id.word_for_view_holder,word);
-       holder.textId.setText(String.valueOf(position));
+       holder.textId.setText(String.valueOf(position+1));
        holder.textChinese.setText(word.getChineseMeaning());
        holder.textEnglish.setText(word.getWord());
 
@@ -108,20 +122,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
 
     }
 
-    @Override
-    public int getItemCount() {
-        return allWords.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return allWords.size();
+//    }
 
     public void setCardFlag(boolean cardFlag) {
         this.cardFlag = cardFlag;
     }
 
-    static class MyHolder extends RecyclerView.ViewHolder{
-        private TextView textId,textChinese,textEnglish;
+    public static class MyHolder extends RecyclerView.ViewHolder{
+        public TextView textId,textChinese,textEnglish;
         private Switch switchChineseInvisable;
 
-        public MyHolder(@NonNull View itemView) {
+        MyHolder(@NonNull View itemView) {
             super(itemView);
             switchChineseInvisable = itemView.findViewById(R.id.switch_chinese);
             textId = itemView.findViewById(R.id.textView);
@@ -130,4 +144,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyHolder> {
         }
     }
 
+    @Override
+    public void onViewAttachedToWindow(@NonNull MyHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.textId.setText(String.valueOf(holder.getAdapterPosition()+1));
+    }
 }

@@ -28,7 +28,7 @@ public class WordViewModel extends AndroidViewModel {
         wordRepository.insertWords(words);
     }
 
-    public void updateWords(Word... words) {
+    void updateWords(Word... words) {
         wordRepository.updateWords(words);
     }
 

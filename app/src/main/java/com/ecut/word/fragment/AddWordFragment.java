@@ -1,17 +1,8 @@
 package com.ecut.word.fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.NavGraph;
-import androidx.navigation.Navigation;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -21,11 +12,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.ecut.word.R;
 import com.ecut.word.Word;
 import com.ecut.word.WordViewModel;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.

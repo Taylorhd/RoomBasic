@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.Insert;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
@@ -21,7 +20,7 @@ public abstract class WordDataBase extends RoomDatabase {
         }
         return INSTANCE;
     }
-    static  final Migration MIGRATION_1_2 = new Migration(1,2) {
+    private static  final Migration MIGRATION_1_2 = new Migration(1,2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE word ADD COLUMN foo INTEGER NOT NULL DEFAULT 1 ");

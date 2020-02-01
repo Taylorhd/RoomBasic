@@ -1,7 +1,5 @@
 package com.ecut.word;
 
-import android.os.AsyncTask;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -15,15 +13,16 @@ import java.util.List;
 public interface WordDao {
 
     @Insert
-    void insertWotds(Word... words);
+    void insertWords(Word... words);
     @Update
-    int updateWords(Word... words);
+    void updateWords(Word... words);
     @Delete
     void deleteWords(Word... words);
     @Query("DELETE FROM WORD")
     void deleteAllWords();
     @Query("SELECT * FROM WORD ORDER BY ID DESC")
     LiveData<List<Word>> getAllWordsLive();
+
 
     @Query("SELECT * FROM WORD  WHERE english_word LIKE :pattern ORDER BY ID DESC")
     LiveData<List<Word>> searchByKeyWord(String pattern);
